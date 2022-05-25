@@ -1,24 +1,29 @@
 package sk.uniza.people;
 
+import javax.swing.*;
+
 /**
  * 3/29/2022 - 3:01 PM
- *
+ * Abstraktna trieda ktora zdruzuje spolocne vlastnosti vsetkych typov uzivatelov.
  * @author marek
  */
-public abstract class Person {
+public abstract class Person implements IUser {
     private String id;
     private String name;
     private String surname;
     private String titleInFront;
     private String titleBehind;
 
+    /**
+     * Priradi hodnoty urcene vstupnymi parametrami atributom.
+     * @param id Identifikator uzivatela
+     * @param name Krstne meno uzivatela
+     * @param surname Priezvisko uzivatela
+     */
     public Person(String id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
-    }
-    public void exportInfo() {
-
     }
     public String getId() {
         return this.id;
@@ -31,7 +36,6 @@ public abstract class Person {
     public String getFullName() {
         return this.name + " " + this.surname;
     }
-
     public String getName() {
         return this.name;
     }
@@ -42,10 +46,6 @@ public abstract class Person {
 
     public String getSurname() {
         return this.surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getTitleInFront() {

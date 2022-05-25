@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component inherit-compiler-output="true" inheritJdk="true">
+<component LANGUAGE_LEVEL="JDK_17_PREVIEW" inherit-compiler-output="true" jdk="openjdk-17" jdk_type="JavaSDK">
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$">
 		<testFolder url="file://$MODULE_DIR$/tests"/>
 	</contentEntry>
-	<lib name="JUnit5.4" scope="TEST"/>
-	<lib name="JUnit5.8.1" scope="TEST"/>
 </component>

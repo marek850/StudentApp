@@ -1,26 +1,29 @@
 package sk.uniza.school;
 
-import sk.uniza.fileHandling.ExportToFile;
 import sk.uniza.people.Student;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * 3/29/2022 - 3:01 PM
- *
+ * Abstraktna trieda ktora zdruzuje spolocne vlastnosti jednotlivych casti struktury skoly ako su Fakulta, Odbor atd.
  * @author marek
  */
-public abstract class SchoolStructure extends ExportToFile {
+public abstract class SchoolStructure {
     private String id;
     private String name;
     private HashMap<String, Student> students;
 
+    /**
+     * Nastavi hodnoty urcene vstupnymi parametrami atributom
+     * @param id identifikator
+     * @param name nazov
+     */
     public SchoolStructure(String id, String name) {
         this.id = id;
         this.name = name;
-        this.students = new HashMap<String, Student>();
+        this.students = new HashMap<>();
     }
 
     public String getId() {
@@ -41,20 +44,21 @@ public abstract class SchoolStructure extends ExportToFile {
 
     public HashMap<String, Student> getStudentsList() {
         HashMap<String, Student> studList = new HashMap<>();
-        Iterator it = this.students.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            studList.put((String)pair.getKey(), (Student)pair.getValue());
+        for (Map.Entry<String, Student> stringStudentEntry : this.students.entrySet()) {
+            studList.put((String)((Map.Entry<?, ?>)stringStudentEntry).getKey(), (Student)((Map.Entry<?, ?>)stringStudentEntry).getValue());
         }
         return studList;
     }
+
+    /**
+     * Prida noveho studenta do zoznamu studentov.
+     * @param student Novy student
+     */
     public void addStudent(Student student) {
         if (student != null) {
             if (!this.students.isEmpty()) {
                 if (!this.students.containsKey(student.getId())) {
                     this.students.put(student.getId(), student);
-                } else {
-                    System.out.println("Student sa uz v zozname nachadza");
                 }
             } else {
                 this.students.put(student.getId(), student);
@@ -64,6 +68,10 @@ public abstract class SchoolStructure extends ExportToFile {
         }
     }
 
+    /**
+     * Odstrani studenta zo zoznamu studentov
+     * @param student student na odstranenie
+     */
     public void removeStudent(Student student) {
         if (student != null && !this.students.isEmpty()) {
             this.students.remove(student.getId());
@@ -72,9 +80,4 @@ public abstract class SchoolStructure extends ExportToFile {
         }
     }
 
-    public void printStudents() {
-        for (Student stud : this.students.values()) {
-            System.out.println(stud.toString());
-        }
-    }
 }

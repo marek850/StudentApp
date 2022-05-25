@@ -1,22 +1,26 @@
 package sk.uniza.people;
 
 import sk.uniza.school.Subject;
-import sk.uniza.school.Faculty;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * 3/29/2022 - 3:01 PM
- *
+ * Trieda modeluje pouzivatela aplikacie Ucitel. Trieda je priamym potomkom abstraktnej triedy Person
  * @author marek
  */
-public class Teacher extends Person implements IUser {
-    private Faculty faculty;
+public class Teacher extends Person {
     private String password;
-    private HashMap<String, Subject> teachingSubjects;
+    private final HashMap<String, Subject> teachingSubjects;
 
+    /**
+     * Vytvori instanciu triedy a nastavi hodnoty urcene vstupnymi parametrami atributom.
+     * @param id - identifikator ucitela
+     * @param name - krstne meno ucitela
+     * @param surname - priezvisko ucitela
+     * @param password - heslo na prihlasenie do systemu
+     */
     public Teacher(String id, String name, String surname, String password) {
         super(id, name, surname);
         this.password = password;
@@ -25,15 +29,17 @@ public class Teacher extends Person implements IUser {
 
     public HashMap<String, Subject> getTeachingSubjects() {
         HashMap<String, Subject> subjects = new HashMap<>();
-        Iterator it = this.teachingSubjects.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            subjects.put((String)pair.getKey(), (Subject)pair.getValue());
+        for (Map.Entry<String, Subject> stringSubjectEntry : this.teachingSubjects.entrySet()) {
+            subjects.put((String)((Map.Entry)stringSubjectEntry).getKey(), (Subject)((Map.Entry<?, ?>)stringSubjectEntry).getValue());
 
         }
         return subjects;
     }
 
+    /**
+     * Prida novy predmet do zoznamu predmetov ucitela. Novy predmet je urceny vstupnym parametrom
+     * @param subject novy predmet na pridanie
+     */
     public void addSubject(Subject subject) {
         if (subject != null) {
             if (this.teachingSubjects.isEmpty()) {
@@ -46,24 +52,21 @@ public class Teacher extends Person implements IUser {
         }
     }
 
-    public void printSubjects() {
-        HashMap<String, Subject> subjects = new HashMap<>();
-        Iterator it = this.teachingSubjects.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Subject s = (Subject)pair.getValue();
-            System.out.println(s.toString());
-        }
-    }
-
+    /**
+     * Odstrani predmet zo zoznamu ucitelovych predmetov. Predmet je urceny vstupnym parametrom.
+     * @param subject predmet na odstranenie zo zoznamu
+     */
     public void removeSubject(Subject subject) {
         if (subject != null) {
             if (!this.teachingSubjects.isEmpty()) {
-                if (this.teachingSubjects.containsKey(subject.getId())) {
-                    this.teachingSubjects.remove(subject.getId());
-                }
+                this.teachingSubjects.remove(subject.getId());
             }
         }
+    }
+
+    @Override
+    public String getLogin() {
+        return super.getId();
     }
 
     @Override
@@ -72,12 +75,12 @@ public class Teacher extends Person implements IUser {
     }
 
     @Override
-    public void setPassword(String pass) {
+    public void changePassword(String pass) {
         this.password = pass;
     }
 
     @Override
     public String toString() {
-        return "Teacher " + getId() + " " + getFullName();
+        return "    " + this.getFullName() + " \n ID:  " + this.getId();
     }
 }

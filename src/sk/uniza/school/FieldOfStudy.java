@@ -1,30 +1,32 @@
 package sk.uniza.school;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * 3/29/2022 - 3:01 PM
- *
+ * Trieda modeluje studijny program/odbor na vysokej skole. Trieda je priamym potomkom triedy SchoolStructure
  * @author marek
  */
 public class FieldOfStudy extends SchoolStructure {
     private HashMap<String, Group> groupList;
     private HashMap<String, Subject> subjectList;
+
+    /**
+     * Vytvori instanciu triedy a priradi atributom hodnoty urcene vstupnymi parametrami
+     * @param id Identifikator odboru
+     * @param name Nazov odboru
+     */
     public FieldOfStudy(String id, String name) {
         super(id, name);
         this.groupList = new HashMap<>();
         this.subjectList = new HashMap<>();
     }
-    public void addToFaculty(Faculty faculty) {
-        if (faculty != null) {
-            faculty.addFieldOfStudy(this);
-        } else {
-            System.out.println("Chyba!");
-        }
-    }
 
+    /**
+     * Prida do zoznamu skupin priradenych odboru novu skupinu urcenu vstupnym parametrom
+     * @param group Nova skupina na pridanie do zoznamu
+     */
     public void addGroup(Group group) {
         if (group != null) {
             if (this.groupList.isEmpty()) {
@@ -39,6 +41,10 @@ public class FieldOfStudy extends SchoolStructure {
         }
     }
 
+    /**
+     * Prida do zoznamu predmetov priradenych odboru novy predmet urceny vstupnym parametrom
+     * @param subject Novy predmet na pridanie do zoznamu
+     */
     public void addSubject(Subject subject) {
         if (subject != null) {
             if (this.subjectList.isEmpty()) {
@@ -53,46 +59,24 @@ public class FieldOfStudy extends SchoolStructure {
         }
     }
 
-    public void printSubjects() {
-        Iterator it = this.subjectList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Subject s1 = (Subject)pair.getValue();
-            System.out.println(s1.toString());
-        }
-    }
-
-    public void printGroups() {
-        Iterator it = this.groupList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            Group g1 = (Group)pair.getValue();
-            System.out.println(g1.toString());
-        }
-    }
-
     public HashMap<String, Subject> getSubjects() {
         HashMap<String, Subject> subjects = new HashMap<>();
-        Iterator it = this.subjectList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            subjects.put((String)pair.getKey(), (Subject)pair.getValue());
+        for (Map.Entry<String, Subject> stringSubjectEntry : this.subjectList.entrySet()) {
+            subjects.put((String)((Map.Entry<?, ?>)stringSubjectEntry).getKey(), (Subject)((Map.Entry<?, ?>)stringSubjectEntry).getValue());
         }
         return subjects;
     }
 
     public HashMap<String, Group> getGroups() {
         HashMap<String, Group> groups = new HashMap<>();
-        Iterator it = this.groupList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            groups.put((String)pair.getKey(), (Group)pair.getValue());
+        for (Map.Entry<String, Group> stringGroupEntry : this.groupList.entrySet()) {
+            groups.put((String)((Map.Entry<?, ?>)stringGroupEntry).getKey(), (Group)((Map.Entry<?, ?>)stringGroupEntry).getValue());
         }
         return groups;
     }
 
     @Override
     public String toString() {
-        return " FieldOfStudy{} " + super.getId() + " " + super.getName();
+        return "    " + this.getName() + "  ID: " + this.getName();
     }
 }
